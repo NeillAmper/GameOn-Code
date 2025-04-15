@@ -1,17 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 
-/**
- *
- * @author neillamper
- */
+import javax.swing.JOptionPane;
+
+
 public class CategorySelection extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CategorySelection
-     */
+    private static String Player, selected ;
+    
+    
     public CategorySelection() {
         initComponents();
     }
@@ -25,35 +20,44 @@ public class CategorySelection extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jSpinner1 = new javax.swing.JSpinner();
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        playername = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        jToggleButton3 = new javax.swing.JToggleButton();
-        jToggleButton4 = new javax.swing.JToggleButton();
+        mathbtn = new javax.swing.JToggleButton();
+        sciencebtn = new javax.swing.JToggleButton();
+        historybtn = new javax.swing.JToggleButton();
+        englishbtn = new javax.swing.JToggleButton();
         jButton1 = new javax.swing.JButton();
         Back = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTextField1.setText("Enter player name");
+        playername.setText("Enter player name");
 
         jLabel1.setText("Category Selection");
 
         jLabel2.setText("Please Select a Category");
 
-        jToggleButton1.setText("Math");
+        buttonGroup1.add(mathbtn);
+        mathbtn.setText("Math");
 
-        jToggleButton2.setText("Science");
+        buttonGroup1.add(sciencebtn);
+        sciencebtn.setText("Science");
 
-        jToggleButton3.setText("History");
+        buttonGroup1.add(historybtn);
+        historybtn.setText("History");
 
-        jToggleButton4.setText("English");
+        buttonGroup1.add(englishbtn);
+        englishbtn.setText("English");
 
         jButton1.setText("START GAME");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         Back.setText("<");
         Back.addActionListener(new java.awt.event.ActionListener() {
@@ -73,7 +77,7 @@ public class CategorySelection extends javax.swing.JFrame {
                         .addComponent(jLabel2))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(80, 80, 80)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(playername, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(123, 123, 123)
                         .addComponent(jButton1))
@@ -86,13 +90,13 @@ public class CategorySelection extends javax.swing.JFrame {
                                 .addComponent(jLabel1)
                                 .addGap(92, 92, 92))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jToggleButton1)
+                                .addComponent(mathbtn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jToggleButton2)
+                                .addComponent(sciencebtn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jToggleButton3)
+                                .addComponent(historybtn)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jToggleButton4)))))
+                                .addComponent(englishbtn)))))
                 .addContainerGap(74, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -106,15 +110,15 @@ public class CategorySelection extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(Back)))
                 .addGap(18, 18, 18)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(playername, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(jLabel2)
                 .addGap(47, 47, 47)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton1)
-                    .addComponent(jToggleButton2)
-                    .addComponent(jToggleButton3)
-                    .addComponent(jToggleButton4))
+                    .addComponent(mathbtn)
+                    .addComponent(sciencebtn)
+                    .addComponent(historybtn)
+                    .addComponent(englishbtn))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addContainerGap(32, Short.MAX_VALUE))
@@ -142,10 +146,18 @@ public class CategorySelection extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
-        Player p = new Player();
-        p.setVisible(true);
+        //Player p = new Player();
+        //p.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_BackActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        answer() ;
+        
+        GameUI_Entry() ;
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,18 +193,117 @@ public class CategorySelection extends javax.swing.JFrame {
             }
         });
     }
+    
+public void answer() {
+    
+    Player = playername.getText() ;
+    
+    if (buttonGroup1.getSelection() == null) {
+        
+    JOptionPane.showMessageDialog(null, "Please select an answer to proceed.", "Error!", JOptionPane.ERROR_MESSAGE);
+    return ;
+    
+    }
+    
+    if (Player.isEmpty()) {
+        
+    JOptionPane.showMessageDialog(null, "Please enter a player namer to proceed.", "Error!", JOptionPane.ERROR_MESSAGE);
+    return ;
+        
+    }
+    
+    if (mathbtn.isSelected()) {
+        
+        selected = mathbtn.getActionCommand() ;
+        System.out.println("You've selected: " + selected);
+        
+    }
+    
+    if (sciencebtn.isSelected()) {
+        
+        selected = sciencebtn.getActionCommand() ;
+        System.out.println("You've selected: " + selected);
+        
+    }
+    
+    if (historybtn.isSelected()) {
+        
+        selected = historybtn.getActionCommand() ;
+        System.out.println("You've selected: " + selected);
+        
+    }
+    
+    if (englishbtn.isSelected()) {
+        
+        selected = englishbtn.getActionCommand() ;
+        System.out.println("You've selected: " + selected);
+        
+    }
+    
+    setVisible(false) ;
+    
+    
+    
+}
+
+public void GameUI_Entry() {
+    
+    if (selected == "Math") {
+        
+        MathUI x = new MathUI() ;
+        x.setVisible(true) ;
+        
+    } 
+    
+    if (selected == "Science") {
+        
+        //MathUI x = new MathUI() ;
+        //x.setVisible(true) ;
+        
+    } 
+    
+    if (selected == "History") {
+        
+        //MathUI x = new MathUI() ;
+        //x.setVisible(true) ;
+        
+    } 
+    
+    if (selected == "English") {
+        
+        //MathUI x = new MathUI() ;
+        //x.setVisible(true) ;
+        
+    } 
+    
+}
+    
+    
+public static String getCategorySelection_Player() {
+    
+    return Player  ;    
+    
+}
+
+public static String getCategorySelection_selected() {
+    
+    return selected  ;    
+    
+}
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Back;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JToggleButton englishbtn;
+    private javax.swing.JToggleButton historybtn;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JToggleButton jToggleButton3;
-    private javax.swing.JToggleButton jToggleButton4;
+    private javax.swing.JToggleButton mathbtn;
+    private javax.swing.JTextField playername;
+    private javax.swing.JToggleButton sciencebtn;
     // End of variables declaration//GEN-END:variables
 }

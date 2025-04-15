@@ -47,7 +47,7 @@ public class CreateQuiz extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         categorybox = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
-        idgame = new javax.swing.JTextField();
+        quizid = new javax.swing.JTextField();
         labelquestioncounter = new javax.swing.JLabel();
         questionUI = new javax.swing.JTextField();
         jRadioButton1 = new javax.swing.JRadioButton();
@@ -191,7 +191,7 @@ public class CreateQuiz extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(202, 202, 202)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(idgame, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(quizid, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(questionUI)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
@@ -217,7 +217,7 @@ public class CreateQuiz extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(idgame, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(quizid, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelquestioncounter)
@@ -299,7 +299,7 @@ public class CreateQuiz extends javax.swing.JFrame {
         opt2 = opt2UI.getText() ;
         opt3 = opt3UI.getText() ;
         opt4 = opt4UI.getText() ;
-        gameid = idgame.getText().trim();
+        gameid = quizid.getText().trim();
         category = categorybox.getItemAt(WIDTH) ;
 
         //These lines of code retrieve user input from text fields and remove any spaces, declaring and initializing to store the input.
@@ -330,12 +330,13 @@ public class CreateQuiz extends javax.swing.JFrame {
             JSONObject content = new JSONObject() ;
                 
                 content.put("question", question) ;
+                content.put("answer", correctanswer);
+                content.put("quizid", quizid);
                 content.put("category", category) ;
                 content.put("option#1", opt1) ;
                 content.put("option#2", opt2) ;
                 content.put("option#3", opt3) ;
                 content.put("option#4", opt4) ;
-                content.put("correctanswer", correctanswer);
                 
                 System.out.println("in object added") ;
                 
@@ -478,7 +479,6 @@ public static void savefile() throws FileNotFoundException, IOException, ParseEx
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Back;
     private javax.swing.JComboBox<String> categorybox;
-    private javax.swing.JTextField idgame;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -496,5 +496,6 @@ public static void savefile() throws FileNotFoundException, IOException, ParseEx
     private javax.swing.JTextField opt3UI;
     private javax.swing.JTextField opt4UI;
     private javax.swing.JTextField questionUI;
+    private javax.swing.JTextField quizid;
     // End of variables declaration//GEN-END:variables
 }

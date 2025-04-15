@@ -29,8 +29,8 @@ public class Player extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        LeaderboardButton = new javax.swing.JButton();
+        History = new javax.swing.JButton();
         Logout = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -41,9 +41,19 @@ public class Player extends javax.swing.JFrame {
 
         jButton2.setText("Profile");
 
-        jButton3.setText("Leaderboards");
+        LeaderboardButton.setText("Leaderboards");
+        LeaderboardButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LeaderboardButtonActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("History");
+        History.setText("History");
+        History.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HistoryActionPerformed(evt);
+            }
+        });
 
         Logout.setText("Logout");
         Logout.addActionListener(new java.awt.event.ActionListener() {
@@ -66,8 +76,8 @@ public class Player extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton2)
                             .addComponent(jButton1)
-                            .addComponent(jButton3)
-                            .addComponent(jButton4)
+                            .addComponent(LeaderboardButton)
+                            .addComponent(History)
                             .addComponent(Logout))))
                 .addContainerGap(135, Short.MAX_VALUE))
         );
@@ -81,9 +91,9 @@ public class Player extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addComponent(LeaderboardButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4)
+                .addComponent(History)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Logout)
                 .addContainerGap(84, Short.MAX_VALUE))
@@ -109,6 +119,18 @@ public class Player extends javax.swing.JFrame {
         b.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_LogoutActionPerformed
+
+    private void LeaderboardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeaderboardButtonActionPerformed
+        Leaderboard l = new Leaderboard("Player");
+        l.setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_LeaderboardButtonActionPerformed
+
+    private void HistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistoryActionPerformed
+        History h = new History("Player");
+        h.setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_HistoryActionPerformed
 
     /**
      * @param args the command line arguments
@@ -138,19 +160,17 @@ public class Player extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Player().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Player().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton History;
+    private javax.swing.JButton LeaderboardButton;
     private javax.swing.JButton Logout;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
