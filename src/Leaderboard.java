@@ -13,9 +13,8 @@ import org.json.simple.parser.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
 public class Leaderboard extends javax.swing.JFrame {
-    
+
     private final String userType; // "GameMaster" or "Player"
     private static final String FILE_PATH = "src/Database.json";
     private final JSONObject lastDeletedQuiz = null;
@@ -187,8 +186,8 @@ public class Leaderboard extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Failed to load leaderboard!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
-        private void populateCategorySelection() {
+
+    private void populateCategorySelection() {
         try (FileReader reader = new FileReader(FILE_PATH)) {
             JSONParser parser = new JSONParser();
             JSONObject root = (JSONObject) parser.parse(reader);
@@ -217,7 +216,9 @@ public class Leaderboard extends javax.swing.JFrame {
 
     private void loadCategoryQuizzes() {
         String selectedCategory = (String) CategorySelection.getSelectedItem();
-        if (selectedCategory == null) return;
+        if (selectedCategory == null) {
+            return;
+        }
 
         DefaultTableModel model = (DefaultTableModel) LeaderboardTable.getModel();
         model.setRowCount(0);
@@ -276,24 +277,30 @@ public class Leaderboard extends javax.swing.JFrame {
     private void searchQuizzes(String keyword) {
         String selectedCategory = (String) CategorySelection.getSelectedItem();
         DefaultTableModel model = (DefaultTableModel) LeaderboardTable.getModel();
-        model.setRowCount(0);
+        model.setRowCount(0); // Clear the table
 
         try (FileReader reader = new FileReader(FILE_PATH)) {
             JSONParser parser = new JSONParser();
             JSONObject root = (JSONObject) parser.parse(reader);
-            JSONArray quizzes = (JSONArray) root.get("Leaderboard");
+            JSONArray quizzes = (JSONArray) root.get("Quizzes"); // Make sure you are reading from "Quizzes" section
 
             for (Object obj : quizzes) {
                 JSONObject quiz = (JSONObject) obj;
                 String category = (String) quiz.get("category");
-                String score = (String) quiz.get("score");
-                String player = (String) quiz.get("player");
+                String quizid = (String) quiz.get("quizid");
+                String question = (String) quiz.get("question");
 
-                if ((selectedCategory.equals("All") || selectedCategory.equals(category)) &&
-                        (player.toLowerCase().contains(keyword.toLowerCase()) ||
-                         score.toLowerCase().contains(keyword.toLowerCase()))) {
+                // Check if any of the fields match the search keyword (case-insensitive)
+                if ((selectedCategory.equals("All") || selectedCategory.equals(category))
+                        && (category.toLowerCase().contains(keyword.toLowerCase())
+                        || quizid.toLowerCase().contains(keyword.toLowerCase())
+                        || question.toLowerCase().contains(keyword.toLowerCase()))) {
 
-                    model.addRow(new Object[]{category, score, player});
+                    model.addRow(new Object[]{
+                        category,
+                        quizid,
+                        question
+                    });
                 }
             }
 
@@ -308,7 +315,7 @@ public class Leaderboard extends javax.swing.JFrame {
             new Leaderboard("Player").setVisible(true);
         });
     }
-   
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Back;
