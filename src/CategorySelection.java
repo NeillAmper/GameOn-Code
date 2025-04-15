@@ -1,12 +1,10 @@
 
 import javax.swing.JOptionPane;
 
-
 public class CategorySelection extends javax.swing.JFrame {
 
-    private static String Player, selected ;
-    
-    
+    private static String Player, selected;
+
     public CategorySelection() {
         initComponents();
     }
@@ -152,11 +150,11 @@ public class CategorySelection extends javax.swing.JFrame {
     }//GEN-LAST:event_BackActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-        answer() ;
-        
-        GameUI_Entry() ;
-        
+
+        answer();
+
+        GameUI_Entry();
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -187,110 +185,101 @@ public class CategorySelection extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CategorySelection().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new CategorySelection().setVisible(true);
         });
     }
-    
-public void answer() {
-    
-    Player = playername.getText() ;
-    
-    if (buttonGroup1.getSelection() == null) {
-        
-    JOptionPane.showMessageDialog(null, "Please select an answer to proceed.", "Error!", JOptionPane.ERROR_MESSAGE);
-    return ;
-    
-    }
-    
-    if (Player.isEmpty()) {
-        
-    JOptionPane.showMessageDialog(null, "Please enter a player namer to proceed.", "Error!", JOptionPane.ERROR_MESSAGE);
-    return ;
-        
-    }
-    
-    if (mathbtn.isSelected()) {
-        
-        selected = mathbtn.getActionCommand() ;
-        System.out.println("You've selected: " + selected);
-        
-    }
-    
-    if (sciencebtn.isSelected()) {
-        
-        selected = sciencebtn.getActionCommand() ;
-        System.out.println("You've selected: " + selected);
-        
-    }
-    
-    if (historybtn.isSelected()) {
-        
-        selected = historybtn.getActionCommand() ;
-        System.out.println("You've selected: " + selected);
-        
-    }
-    
-    if (englishbtn.isSelected()) {
-        
-        selected = englishbtn.getActionCommand() ;
-        System.out.println("You've selected: " + selected);
-        
-    }
-    
-    setVisible(false) ;
-    
-    
-    
-}
 
-public void GameUI_Entry() {
-    
-    if (selected == "Math") {
-        
-        MathUI x = new MathUI() ;
-        x.setVisible(true) ;
-        
-    } 
-    
-    if (selected == "Science") {
-        
-        //MathUI x = new MathUI() ;
-        //x.setVisible(true) ;
-        
-    } 
-    
-    if (selected == "History") {
-        
-        //MathUI x = new MathUI() ;
-        //x.setVisible(true) ;
-        
-    } 
-    
-    if (selected == "English") {
-        
-        //MathUI x = new MathUI() ;
-        //x.setVisible(true) ;
-        
-    } 
-    
-}
-    
-    
-public static String getCategorySelection_Player() {
-    
-    return Player  ;    
-    
-}
+    public void answer() {
 
-public static String getCategorySelection_selected() {
-    
-    return selected  ;    
-    
-}
+        Player = playername.getText();
 
+        if (buttonGroup1.getSelection() == null) {
+
+            JOptionPane.showMessageDialog(null, "Please select an answer to proceed.", "Error!", JOptionPane.ERROR_MESSAGE);
+            return;
+
+        }
+
+        if (Player.isEmpty()) {
+
+            JOptionPane.showMessageDialog(null, "Please enter a player namer to proceed.", "Error!", JOptionPane.ERROR_MESSAGE);
+            return;
+
+        }
+
+        if (mathbtn.isSelected()) {
+
+            selected = mathbtn.getActionCommand();
+            System.out.println("You've selected: " + selected);
+
+        }
+
+        if (sciencebtn.isSelected()) {
+
+            selected = sciencebtn.getActionCommand();
+            System.out.println("You've selected: " + selected);
+
+        }
+
+        if (historybtn.isSelected()) {
+
+            selected = historybtn.getActionCommand();
+            System.out.println("You've selected: " + selected);
+
+        }
+
+        if (englishbtn.isSelected()) {
+
+            selected = englishbtn.getActionCommand();
+            System.out.println("You've selected: " + selected);
+
+        }
+
+        setVisible(false);
+
+    }
+
+    public void GameUI_Entry() {
+
+        if (selected == "Math") {
+
+            MathUI x = new MathUI();
+            x.setVisible(true);
+
+        }
+
+        if (selected == "Science") {
+
+            //MathUI x = new MathUI() ;
+            //x.setVisible(true) ;
+        }
+
+        if (selected == "History") {
+
+            //MathUI x = new MathUI() ;
+            //x.setVisible(true) ;
+        }
+
+        if (selected == "English") {
+
+            //MathUI x = new MathUI() ;
+            //x.setVisible(true) ;
+        }
+
+    }
+
+    public static String getCategorySelection_Player() {
+
+        return Player;
+
+    }
+
+    public static String getCategorySelection_selected() {
+
+        return selected;
+
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

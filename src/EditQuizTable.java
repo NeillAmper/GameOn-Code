@@ -4,7 +4,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,10 +15,7 @@ import org.json.simple.parser.ParseException;
 public class EditQuizTable extends javax.swing.JFrame {
 
     private static final String FILE_PATH = "src/Database.json";
-    private JSONObject lastDeletedQuiz = null;
-    private int lastDeletedRowIndex = -1;
     private JSONObject lastEditedQuizOriginal = null;
-    private String lastEditedQuizID = null;
 
     public EditQuizTable() {
         initComponents(); // This initializes the form components (auto-generated)
@@ -106,21 +102,21 @@ public class EditQuizTable extends javax.swing.JFrame {
                         .addContainerGap(41, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(59, 59, 59))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(BackButton)
-                .addContainerGap(353, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(EditButton)
                 .addGap(82, 82, 82))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(BackButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addComponent(BackButton)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SearchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(CategorySelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -174,7 +170,6 @@ public class EditQuizTable extends javax.swing.JFrame {
                 JSONObject quiz = (JSONObject) obj;
                 if (quiz.get("quizid").equals(selectedQuizID)) {
                     lastEditedQuizOriginal = (JSONObject) quiz.clone();
-                    lastEditedQuizID = selectedQuizID;
                     break;
                 }
             }
@@ -224,44 +219,56 @@ public class EditQuizTable extends javax.swing.JFrame {
         }
     }
 
-    private void loadCategoryQuizzes() {
-        DefaultTableModel model = (DefaultTableModel) QuizTable.getModel();
-        model.setRowCount(0);
+private void loadCategoryQuizzes() {
+    DefaultTableModel model = (DefaultTableModel) QuizTable.getModel();
+    model.setRowCount(0); // Clear current table data
 
-        try (FileReader reader = new FileReader(FILE_PATH)) {
-            JSONParser parser = new JSONParser();
-            JSONObject root = (JSONObject) parser.parse(reader);
-            JSONArray quizzes = (JSONArray) root.get("Quizzes");
+    try (FileReader reader = new FileReader(FILE_PATH)) {
+        JSONParser parser = new JSONParser();
+        JSONObject root = (JSONObject) parser.parse(reader);
+        JSONArray quizzes = (JSONArray) root.get("Quizzes");
 
-            Object selectedItem = CategorySelection.getSelectedItem();
-            if (selectedItem == null) {
-                return; // No category selected yet
-            }
-
-            String selectedCategory = selectedItem.toString();
-            String keyword = SearchField.getText().toLowerCase();
-
-            for (Object obj : quizzes) {
-                JSONObject quiz = (JSONObject) obj;
-                String category = quiz.get("category").toString();
-                String question = quiz.get("question").toString().toLowerCase();
-
-                boolean categoryMatch = selectedCategory.equals("All") || category.equals(selectedCategory);
-                boolean keywordMatch = keyword.isEmpty() || category.toLowerCase().contains(keyword) || question.contains(keyword);
-
-                if (categoryMatch && keywordMatch) {
-                    model.addRow(new Object[]{
-                        category,
-                        quiz.get("quizid"),
-                        quiz.get("question")
-                    });
-                }
-            }
-
-        } catch (IOException | ParseException e) {
-            JOptionPane.showMessageDialog(this, "Failed to load quizzes.", "Error", JOptionPane.ERROR_MESSAGE);
+        Object selectedItem = CategorySelection.getSelectedItem();
+        if (selectedItem == null) {
+            return; // No category selected yet
         }
+
+        String selectedCategory = selectedItem.toString();
+        String keyword = SearchField.getText().toLowerCase();
+
+        for (Object obj : quizzes) {
+            JSONObject quiz = (JSONObject) obj;
+            String category = quiz.get("category").toString();
+            String quizid = quiz.get("quizid").toString();
+            String question = quiz.get("question").toString();
+
+            // Convert values to lowercase for case-insensitive matching
+            String categoryLower = category.toLowerCase();
+            String quizidLower = quizid.toLowerCase();
+            String questionLower = question.toLowerCase();
+
+            // Filter by category from dropdown
+            boolean categoryDropdownMatch = selectedCategory.equals("All") || category.equals(selectedCategory);
+
+            // Filter by keyword match in category, quizid, or question
+            boolean keywordMatch = keyword.isEmpty() ||
+                    categoryLower.contains(keyword) ||
+                    quizidLower.contains(keyword) ||
+                    questionLower.contains(keyword);
+
+            if (categoryDropdownMatch && keywordMatch) {
+                model.addRow(new Object[]{
+                    category,
+                    quizid,
+                    question
+                });
+            }
+        }
+
+    } catch (IOException | ParseException e) {
+        JOptionPane.showMessageDialog(this, "Failed to load quizzes.", "Error", JOptionPane.ERROR_MESSAGE);
     }
+}
 
     // ADDED SEARCH LISTENER
     private void addSearchListener() {

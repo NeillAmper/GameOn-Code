@@ -258,7 +258,9 @@ public class DeleteQuiz extends javax.swing.JFrame {
 
     private void loadCategoryQuizzes() {
         String selectedCategory = (String) CategorySelection.getSelectedItem();
-        if (selectedCategory == null) return;
+        if (selectedCategory == null) {
+            return;
+        }
 
         DefaultTableModel model = (DefaultTableModel) QuizTable.getModel();
         model.setRowCount(0);
@@ -315,9 +317,8 @@ public class DeleteQuiz extends javax.swing.JFrame {
     }
 
     private void searchQuizzes(String keyword) {
-        String selectedCategory = (String) CategorySelection.getSelectedItem();
         DefaultTableModel model = (DefaultTableModel) QuizTable.getModel();
-        model.setRowCount(0);
+        model.setRowCount(0); // Clear the table before populating
 
         try (FileReader reader = new FileReader(FILE_PATH)) {
             JSONParser parser = new JSONParser();
@@ -330,9 +331,10 @@ public class DeleteQuiz extends javax.swing.JFrame {
                 String question = (String) quiz.get("question");
                 String quizid = (String) quiz.get("quizid");
 
-                if ((selectedCategory.equals("All") || selectedCategory.equals(category)) &&
-                        (quizid.toLowerCase().contains(keyword.toLowerCase()) ||
-                         question.toLowerCase().contains(keyword.toLowerCase()))) {
+                // CASE-INSENSITIVE SEARCH MATCHING category, quizid, OR question
+                if (category.toLowerCase().contains(keyword.toLowerCase())
+                        || quizid.toLowerCase().contains(keyword.toLowerCase())
+                        || question.toLowerCase().contains(keyword.toLowerCase())) {
 
                     model.addRow(new Object[]{category, quizid, question});
                 }

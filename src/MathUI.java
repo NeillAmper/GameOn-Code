@@ -14,26 +14,23 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+public final class MathUI extends javax.swing.JFrame {
 
-public class MathUI extends javax.swing.JFrame {
+    public static int index, score, maxscore;
+    private String PlayerName, answer_selected, correctanswer;
+    private static final String category_selected = CategorySelection.getCategorySelection_selected();
 
-    public static int index, score, maxscore ;
-    private String PlayerName, answer_selected, correctanswer ;
-    private static String category_selected = CategorySelection.getCategorySelection_selected() ;
-    
-    private static final String FILE_PATH = "C:\\Users\\My PC\\OneDrive\\Documents\\NetBeansProjects\\Changes 04_14_2025\\src\\Database (1).json";
+    private static final String FILE_PATH = "src/Database.json";
     private static final JSONParser jsonParser = new JSONParser();
     private static JSONObject record = new JSONObject();
     private static JSONArray userlist = new JSONArray();
-    private static JSONArray trieslist = new JSONArray();
-    
-    
+    private static final JSONArray trieslist = new JSONArray();
+
     public MathUI() {
         initComponents();
-        
-        startQuiz() ;
-        
-        
+
+        startQuiz();
+
     }
 
     /**
@@ -180,63 +177,58 @@ public class MathUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void nxtbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nxtbtnActionPerformed
-        
-    if (buttonGroup1.getSelection() == null) {
-        
-    JOptionPane.showMessageDialog(null, "Please select an answer to proceed.", "Error!", JOptionPane.ERROR_MESSAGE);
-    return ;
-    
-    }
-        answer() ;
-        correctanswer() ;
-        startQuiz() ;
-        
-        
+
+        if (buttonGroup1.getSelection() == null) {
+
+            JOptionPane.showMessageDialog(null, "Please select an answer to proceed.", "Error!", JOptionPane.ERROR_MESSAGE);
+            return;
+
+        }
+        answer();
+        correctanswer();
+        startQuiz();
+
+
     }//GEN-LAST:event_nxtbtnActionPerformed
 
     private void opt1UIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opt1UIActionPerformed
-        
-        
-        
+
+
     }//GEN-LAST:event_opt1UIActionPerformed
 
     private void opt2UIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opt2UIActionPerformed
-        
-        
-        
+
+
     }//GEN-LAST:event_opt2UIActionPerformed
 
     private void opt3UIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opt3UIActionPerformed
-        
-        
-        
+
+
     }//GEN-LAST:event_opt3UIActionPerformed
 
     private void opt4UIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opt4UIActionPerformed
-        
-        
-        
+
+
     }//GEN-LAST:event_opt4UIActionPerformed
 
     private void compbtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_compbtnActionPerformed
-        
-        PlayerName = CategorySelection.getCategorySelection_Player() ;
-        
+
+        PlayerName = CategorySelection.getCategorySelection_Player();
+
         try {
-            
-            
-            savefile() ;
-            
+
+            savefile();
+
         } catch (IOException ex) {
             Logger.getLogger(MathUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
             Logger.getLogger(MathUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        setVisible(false) ;
-        QuizResult x = new QuizResult() ;
-        x.setVisible(true) ;
-        
+
+        setVisible(false);
+        QuizResult x = new QuizResult();
+        x.setVisible(true);
+
     }//GEN-LAST:event_compbtnActionPerformed
 
     /**
@@ -267,14 +259,12 @@ public class MathUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MathUI().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MathUI().setVisible(true);
         });
     }
-    
-public void filecheck() throws FileNotFoundException, IOException, ParseException {
+
+    public void filecheck() throws FileNotFoundException, IOException, ParseException {
         FileReader reader = new FileReader(FILE_PATH);
 
         if (reader.ready()) {
@@ -295,112 +285,105 @@ public void filecheck() throws FileNotFoundException, IOException, ParseExceptio
                 }
             }
         }
-}
+    }
 
-public void startQuiz() {
-    
-    String hello = "Math" ;
-    
-    try {
-        
-        
-    filecheck();
-    
-    
-    
-    while (index < userlist.size()) {
-        Object obj = userlist.get(index);
+    public void startQuiz() {
 
-        if (obj instanceof JSONObject jsonObject) {
-            String category = jsonObject.get("category").toString();
+        String hello = "Math";
 
-            if (category_selected.equals(category)) {
-                // Show data
-                String question = jsonObject.get("question").toString();
-                String opt1 = jsonObject.get("option1").toString();
-                String opt2 = jsonObject.get("option2").toString();
-                String opt3 = jsonObject.get("option3").toString();
-                String opt4 = jsonObject.get("option4").toString();
-                correctanswer = jsonObject.get("answer").toString();
-                System.out.println(correctanswer);
+        try {
 
-                questionUI.setText(question);
-                jLabel2.setText("Category: " + category);
-                opt1UI.setText(opt1);
-                opt2UI.setText(opt2);
-                opt3UI.setText(opt3);
-                opt4UI.setText(opt4);
-                
-                maxscore++ ;
-                index++; // Move to next for next button click
-                return;  // Stop here since we found a match
+            filecheck();
+
+            while (index < userlist.size()) {
+                Object obj = userlist.get(index);
+
+                if (obj instanceof JSONObject jsonObject) {
+                    String category = jsonObject.get("category").toString();
+
+                    if (category_selected.equals(category)) {
+                        // Show data
+                        String question = jsonObject.get("question").toString();
+                        String opt1 = jsonObject.get("option1").toString();
+                        String opt2 = jsonObject.get("option2").toString();
+                        String opt3 = jsonObject.get("option3").toString();
+                        String opt4 = jsonObject.get("option4").toString();
+                        correctanswer = jsonObject.get("answer").toString();
+                        System.out.println(correctanswer);
+
+                        questionUI.setText(question);
+                        jLabel2.setText("Category: " + category);
+                        opt1UI.setText(opt1);
+                        opt2UI.setText(opt2);
+                        opt3UI.setText(opt3);
+                        opt4UI.setText(opt4);
+
+                        maxscore++;
+                        index++; // Move to next for next button click
+                        return;  // Stop here since we found a match
+                    }
+                }
+                index++; // Move to next item if not matched
             }
+
+            // If loop exits, no more matching category
+            System.out.println(score);
+            questionUI.setText("Done!");
+            nxtbtn.setEnabled(false);
+            compbtn.setEnabled(true);
+
+        } catch (HeadlessException | IOException | ParseException e) {
+            Logger.getLogger(MathUI.class.getName()).log(Level.SEVERE, null, e);
+            JOptionPane.showMessageDialog(null, "An error occurred while processing.", "Error!", JOptionPane.ERROR_MESSAGE);
         }
-        index++; // Move to next item if not matched
+
     }
 
-    // If loop exits, no more matching category
-    
-    System.out.println(score) ;
-    questionUI.setText("Done!");
-    nxtbtn.setEnabled(false);
-    compbtn.setEnabled(true);
+    public void answer() {
 
-} catch (HeadlessException | IOException | ParseException e) {
-    Logger.getLogger(MathUI.class.getName()).log(Level.SEVERE, null, e);
-    JOptionPane.showMessageDialog(null, "An error occurred while processing.", "Error!", JOptionPane.ERROR_MESSAGE);
-}
-    
-    
-}
+        if (opt1UI.isSelected()) {
 
-public void answer() {
-    
-    
-    if (opt1UI.isSelected()) {
-        
-        answer_selected = opt1UI.getActionCommand() ;
-        System.out.println("You've selected: " + answer_selected);
-        
-    }
-    
-    if (opt2UI.isSelected()) {
-        
-        answer_selected = opt2UI.getActionCommand() ;
-        System.out.println("You've selected: " + answer_selected);
-        
-    }
-    
-    if (opt3UI.isSelected()) {
-        
-        answer_selected = opt3UI.getActionCommand() ;
-        System.out.println("You've selected: " + answer_selected);
-        
-    }
-    
-    if (opt4UI.isSelected()) {
-        
-        answer_selected = opt4UI.getActionCommand() ;
-        System.out.println("You've selected: " + answer_selected);
-        
-    }
-    
-}
-    
-public void correctanswer() {
-    
-    if (answer_selected.equals(correctanswer)) {
-                    
-    score++ ;
-                    
-    }
-    
-}
+            answer_selected = opt1UI.getActionCommand();
+            System.out.println("You've selected: " + answer_selected);
 
+        }
 
-public void savefile() throws FileNotFoundException, IOException, ParseException {
-         
-    try {
+        if (opt2UI.isSelected()) {
+
+            answer_selected = opt2UI.getActionCommand();
+            System.out.println("You've selected: " + answer_selected);
+
+        }
+
+        if (opt3UI.isSelected()) {
+
+            answer_selected = opt3UI.getActionCommand();
+            System.out.println("You've selected: " + answer_selected);
+
+        }
+
+        if (opt4UI.isSelected()) {
+
+            answer_selected = opt4UI.getActionCommand();
+            System.out.println("You've selected: " + answer_selected);
+
+        }
+
+    }
+
+    public void correctanswer() {
+
+        if (answer_selected.equals(correctanswer)) {
+
+            score++;
+
+        }
+
+    }
+
+    public void savefile() throws FileNotFoundException, IOException, ParseException {
+
+        try {
             JSONObject data;
             JSONParser parser = new JSONParser();
 
@@ -424,9 +407,9 @@ public void savefile() throws FileNotFoundException, IOException, ParseException
 
             // Step 3: Create a new JSONObject to add
             JSONObject newTry = new JSONObject();
-            newTry.put("score", String.valueOf(score)) ;
+            newTry.put("score", String.valueOf(score));
             newTry.put("player", PlayerName);
-            newTry.put("category", category_selected) ;
+            newTry.put("category", category_selected);
 
             // Step 4: Add the new try to the array
             triesArray.add(newTry);
@@ -443,21 +426,20 @@ public void savefile() throws FileNotFoundException, IOException, ParseException
         } catch (Exception e) {
             System.out.println("Error updating JSON: " + e.getMessage());
         }
-    
 
-}
-    
-public static int finalscore() {
-    
-    return score ;
-    
-}
+    }
 
-public static int maxscore() {
-    
-    return maxscore ;
-    
-}
+    public static int finalscore() {
+
+        return score;
+
+    }
+
+    public static int maxscore() {
+
+        return maxscore;
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;

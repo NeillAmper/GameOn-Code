@@ -27,9 +27,9 @@ public class Player extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        LeaderboardButton = new javax.swing.JButton();
+        StartGame = new javax.swing.JButton();
+        Profile = new javax.swing.JButton();
+        Leaderboard = new javax.swing.JButton();
         History = new javax.swing.JButton();
         Logout = new javax.swing.JButton();
 
@@ -37,14 +37,19 @@ public class Player extends javax.swing.JFrame {
 
         jLabel1.setText("Welcome, Player (...)!");
 
-        jButton1.setText("Start Game");
-
-        jButton2.setText("Profile");
-
-        LeaderboardButton.setText("Leaderboards");
-        LeaderboardButton.addActionListener(new java.awt.event.ActionListener() {
+        StartGame.setText("Start Game");
+        StartGame.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LeaderboardButtonActionPerformed(evt);
+                StartGameActionPerformed(evt);
+            }
+        });
+
+        Profile.setText("Profile");
+
+        Leaderboard.setText("Leaderboards");
+        Leaderboard.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LeaderboardActionPerformed(evt);
             }
         });
 
@@ -72,14 +77,15 @@ public class Player extends javax.swing.JFrame {
                         .addGap(138, 138, 138)
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2)
-                            .addComponent(jButton1)
-                            .addComponent(LeaderboardButton)
-                            .addComponent(History)
-                            .addComponent(Logout))))
-                .addContainerGap(135, Short.MAX_VALUE))
+                        .addGap(139, 139, 139)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(Leaderboard)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(Profile)
+                                .addComponent(StartGame)
+                                .addComponent(History)
+                                .addComponent(Logout)))))
+                .addContainerGap(139, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,11 +93,11 @@ public class Player extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(StartGame)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
+                .addComponent(Profile)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LeaderboardButton)
+                .addComponent(Leaderboard)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(History)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -120,17 +126,23 @@ public class Player extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_LogoutActionPerformed
 
-    private void LeaderboardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeaderboardButtonActionPerformed
+    private void LeaderboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeaderboardActionPerformed
         Leaderboard l = new Leaderboard("Player");
         l.setVisible(true);
         setVisible(false);
-    }//GEN-LAST:event_LeaderboardButtonActionPerformed
+    }//GEN-LAST:event_LeaderboardActionPerformed
 
     private void HistoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistoryActionPerformed
         History h = new History("Player");
         h.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_HistoryActionPerformed
+
+    private void StartGameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartGameActionPerformed
+        CategorySelection c = new CategorySelection();
+        c.setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_StartGameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -167,10 +179,10 @@ public class Player extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton History;
-    private javax.swing.JButton LeaderboardButton;
+    private javax.swing.JButton Leaderboard;
     private javax.swing.JButton Logout;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton Profile;
+    private javax.swing.JButton StartGame;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
