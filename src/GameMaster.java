@@ -1,19 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 
-/**
- *
- * @author neillamper
- */
 public class GameMaster extends javax.swing.JFrame {
 
-    /**
-     * Creates new form GameMaster
-     */
-    public GameMaster() {
+    private final String gameMasterName;
+
+    public GameMaster(String usname) {
+        this.gameMasterName = usname;
         initComponents();
+        jLabel2.setText("Welcome, Game Master " + gameMasterName + "!");
     }
 
     /**
@@ -142,7 +135,7 @@ public class GameMaster extends javax.swing.JFrame {
     }//GEN-LAST:event_LogoutActionPerformed
 
     private void CreateQuizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateQuizActionPerformed
-        CreateQuiz c = new CreateQuiz();
+        CreateQuiz c = new CreateQuiz("GameMaster");
         c.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_CreateQuizActionPerformed
@@ -173,10 +166,10 @@ public class GameMaster extends javax.swing.JFrame {
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> {
-            new GameMaster().setVisible(true);
+            new GameMaster("TestName").setVisible(true); // Replace "TestName" with any string for testing
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CreateQuiz;
     private javax.swing.JButton DeleteQuiz;

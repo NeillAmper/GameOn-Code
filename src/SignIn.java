@@ -180,13 +180,13 @@ public class SignIn extends javax.swing.JFrame {
                 //If nothing was found, it will prompt and error message.
             } else {
                 if (foundType != null && foundType.equalsIgnoreCase("Game Master")) {
-                    GameMaster x = new GameMaster();
-                    x.setVisible(true);
+                    GameMaster g = new GameMaster(usname);
+                    g.setVisible(true);
                     setVisible(false);
                     //If the user has an Admin type, it will open the Admin JFrame then it will close the Login JFrame.
-                    
+
                 } else if (foundType != null && foundType.equalsIgnoreCase("Player")) {
-                    Player p = new Player();
+                    Player p = new Player(usname);
                     p.setVisible(true);
                     setVisible(false);
                     //If the user has a Member type, it will open the Member JFrame then it will close the Login JFrame.
@@ -206,9 +206,6 @@ public class SignIn extends javax.swing.JFrame {
         setVisible(false);
     }//GEN-LAST:event_SignUpButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

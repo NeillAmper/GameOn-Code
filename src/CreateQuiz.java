@@ -12,24 +12,33 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
+import javax.swing.ButtonGroup;
 
 public class CreateQuiz extends javax.swing.JFrame {
 
-    private static String gameid, category, numberofquiz, question, opt1, opt2, opt3, opt4, correctanswer;
-
+    private static String gameid, category, question, opt1, opt2, opt3, opt4, correctanswer;
     private static final String FILE_PATH = "/Users/neillamper/Documents/NetBeansProjects/GameOn!/src/Database.json";
     private static final JSONParser jsonParser = new JSONParser();
     private static JSONObject record = new JSONObject();
     private static JSONArray quizlist = new JSONArray();
+    private final String usname;
+    private final ButtonGroup answerGroup;
 
-    
-    /**
-     * Creates new form CreateQuiz
-     */
-    public CreateQuiz() {
+    public CreateQuiz(String usname) {
+        this.usname = usname; // FIXED: Corrected variable name
         initComponents();
-                
+        try {
+            filecheck(); // FIXED: Ensure existing quizzes are loaded
+        } catch (IOException | ParseException e) {
+            Logger.getLogger(CreateQuiz.class.getName()).log(Level.SEVERE, null, e);
+        }
+
+        // FIXED: Group radio buttons
+        answerGroup = new ButtonGroup();
+        answerGroup.add(jRadioButton1);
+        answerGroup.add(jRadioButton2);
+        answerGroup.add(jRadioButton3);
+        answerGroup.add(jRadioButton4);
     }
 
     /**
@@ -58,9 +67,8 @@ public class CreateQuiz extends javax.swing.JFrame {
         opt2UI = new javax.swing.JTextField();
         opt3UI = new javax.swing.JTextField();
         opt4UI = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        AddQuestionButton = new javax.swing.JButton();
         Back = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -126,10 +134,10 @@ public class CreateQuiz extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("ADD QUESTION");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        AddQuestionButton.setText("ADD QUESTION");
+        AddQuestionButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                AddQuestionButtonActionPerformed(evt);
             }
         });
 
@@ -140,21 +148,10 @@ public class CreateQuiz extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("CLEAR QUESTION AND ANSWERS");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(98, 98, 98))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
@@ -200,7 +197,7 @@ public class CreateQuiz extends javax.swing.JFrame {
                 .addGap(39, 39, 39))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(136, 136, 136)
-                .addComponent(jButton1)
+                .addComponent(AddQuestionButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -239,10 +236,8 @@ public class CreateQuiz extends javax.swing.JFrame {
                     .addComponent(jRadioButton4)
                     .addComponent(opt4UI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
-                .addContainerGap())
+                .addComponent(AddQuestionButton)
+                .addGap(41, 41, 41))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -263,117 +258,78 @@ public class CreateQuiz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
-        
-        correctanswer = opt1UI.getText() ;
-        System.out.println(correctanswer) ;
-        
+
+        correctanswer = opt1UI.getText();
+        System.out.println(correctanswer);
+
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
-        GameMaster g = new GameMaster();
+        GameMaster g = new GameMaster(usname);
         g.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_BackActionPerformed
 
     private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
-        
-        correctanswer = opt4UI.getText() ;
-        System.out.println(correctanswer) ;
-        
+
+        correctanswer = opt4UI.getText();
+        System.out.println(correctanswer);
+
     }//GEN-LAST:event_jRadioButton4ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
-       
-        correctanswer = opt2UI.getText() ;
-        System.out.println(correctanswer) ;
-        
+
+        correctanswer = opt2UI.getText();
+        System.out.println(correctanswer);
+
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+    private void AddQuestionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddQuestionButtonActionPerformed
         try {
-        
-        category = (String) categorybox.getSelectedItem() ;
-        question = questionUI.getText() ;
-        opt1 = opt1UI.getText() ;
-        opt2 = opt2UI.getText() ;
-        opt3 = opt3UI.getText() ;
-        opt4 = opt4UI.getText() ;
-        gameid = quizid.getText().trim();
-        category = categorybox.getItemAt(WIDTH) ;
+            category = (String) categorybox.getSelectedItem();
+            question = questionUI.getText();
+            opt1 = opt1UI.getText();
+            opt2 = opt2UI.getText();
+            opt3 = opt3UI.getText();
+            opt4 = opt4UI.getText();
+            gameid = quizid.getText().trim();
 
-        //These lines of code retrieve user input from text fields and remove any spaces, declaring and initializing to store the input.
-
-        if (question.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Please enter an Question.", "Input needed", JOptionPane.ERROR_MESSAGE);
-            return;
-            // These lines of code prompts and checks if both username and password fields are empty.
-        }
-        
-        if (correctanswer.isBlank()) {
-            JOptionPane.showMessageDialog(null, "Please enter an Correctanswer.", "Input needed", JOptionPane.ERROR_MESSAGE);
-            return;
-            // These lines of code prompts and checks if both username and password fields are empty.
-        }
-        
-        if (opt1.isBlank() && opt2.isBlank() && opt3.isBlank() && opt4.isBlank()) {
-            JOptionPane.showMessageDialog(null, "Please enter an Option.", "Input needed", JOptionPane.ERROR_MESSAGE);
-            return;
-            // These lines of code prompts and checks if both username and password fields are empty.
-        }
-            
-            // These lines of code retrieves the entered username and password from the text fields.
-
-            filecheck(); //Calls the filecheck method to read the data in the json file.
-
-            
-            JSONObject content = new JSONObject() ;
-                
-                content.put("question", question) ;
-                content.put("answer", correctanswer);
-                content.put("quizid", quizid);
-                content.put("category", category) ;
-                content.put("option#1", opt1) ;
-                content.put("option#2", opt2) ;
-                content.put("option#3", opt3) ;
-                content.put("option#4", opt4) ;
-                
-                System.out.println("in object added") ;
-                
-                    
-                System.out.println("sucess") ;
-                try (FileWriter file = new FileWriter(FILE_PATH)) {
-                    
-                if (gameid.isEmpty() && category.isEmpty() ) {
-                
-                JOptionPane.showMessageDialog(null, "Please enter an existing ID and Category.", "Input needed", JOptionPane.ERROR_MESSAGE);
-                
+            if (question.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please enter a question.", "Input needed", JOptionPane.ERROR_MESSAGE);
+                return;
             }
-            
-            quizlist.add(content) ;
-            
-            savefile() ;
-            
-            JOptionPane.showMessageDialog(null, "Successfuly Saved Changes.");
-            GameMaster back = new GameMaster() ;
-            back.setVisible(true) ;
-                    
-                    } catch (FileNotFoundException e) {
-                    Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, e);
-                    JOptionPane.showMessageDialog(null, "An error occurred while logging in.", "Error!", JOptionPane.ERROR_MESSAGE);
-                    // These lines of code catches any errors that happen during the login process and shows an error message.
-                    }
-            
-        } catch (HeadlessException | IOException | ParseException e) {
+
+            if (correctanswer == null || correctanswer.isBlank()) {
+                JOptionPane.showMessageDialog(null, "Please select a correct answer.", "Input needed", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (opt1.isBlank() && opt2.isBlank() && opt3.isBlank() && opt4.isBlank()) {
+                JOptionPane.showMessageDialog(null, "Please enter at least one option.", "Input needed", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            JSONObject content = new JSONObject();
+            content.put("question", question);
+            content.put("answer", correctanswer);
+            content.put("quizid", gameid);
+            content.put("category", category);
+            content.put("option#1", opt1);
+            content.put("option#2", opt2);
+            content.put("option#3", opt3);
+            content.put("option#4", opt4);
+
+            quizlist.add(content);
+
+            savefile();  // Now using the savefile() method to write to the file
+
+            JOptionPane.showMessageDialog(null, "Successfully Saved Changes.");
+
+        } catch (HeadlessException | IOException e) {
             Logger.getLogger(SignIn.class.getName()).log(Level.SEVERE, null, e);
-            JOptionPane.showMessageDialog(null, "An error occurred while logging in.", "Error!", JOptionPane.ERROR_MESSAGE);
-            // These lines of code catches any errors that happen during the login process and shows an error message.
+            JOptionPane.showMessageDialog(null, "An error occurred while saving.", "Error!", JOptionPane.ERROR_MESSAGE);
         }
-        
-        
-        
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_AddQuestionButtonActionPerformed
 
     private void questionUIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_questionUIActionPerformed
         // TODO add your handling code here:
@@ -384,24 +340,15 @@ public class CreateQuiz extends javax.swing.JFrame {
     }//GEN-LAST:event_opt2UIActionPerformed
 
     private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
-       
-        correctanswer = opt3UI.getText() ;
-        System.out.println(correctanswer) ;
-        
+
+        correctanswer = opt3UI.getText();
+        System.out.println(correctanswer);
+
     }//GEN-LAST:event_jRadioButton3ActionPerformed
 
     private void savequizActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savequizActionPerformed
-        
-    }//GEN-LAST:event_savequizActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
-        questionUI.setText("");
-        opt1UI.setText("");
-        opt2UI.setText("");
-        opt3UI.setText("");
-        opt4UI.setText("");
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_savequizActionPerformed
 
     /**
      * @param args the command line arguments
@@ -432,55 +379,35 @@ public class CreateQuiz extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CreateQuiz().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new CreateQuiz("Test").setVisible(true);
         });
     }
-   
-public static void savefile() throws FileNotFoundException, IOException, ParseException {
-            
-            try (FileWriter writer = new FileWriter(FILE_PATH)) {
-              
-            JSONObject overwrite = new JSONObject();
-            overwrite.put("Quizzes", quizlist) ;
-            
-            writer.write(overwrite.toJSONString());
-            System.out.println("student data saved successfully.");
-        } catch (Exception e) {
-            System.out.println("student saving data to file: " + e.getMessage());
+
+    private void filecheck() throws IOException, ParseException {
+        try (FileReader reader = new FileReader(FILE_PATH)) {
+            Object obj = jsonParser.parse(reader);
+            record = (JSONObject) obj;
+            quizlist = (JSONArray) record.get("Quizzes");
+        } catch (FileNotFoundException e) {
+            record = new JSONObject();
+            quizlist = new JSONArray();
+            record.put("Quizzes", quizlist);
         }
-}
-    
-    public void filecheck() throws FileNotFoundException, IOException, ParseException {
-        FileReader reader = new FileReader(FILE_PATH);
+    }
 
-        if (reader.ready()) {
-            Scanner scan = new Scanner(reader);
-            String line = "";
-
-            while (scan.hasNext()) {
-                line = line + scan.nextLine();
-            }
-            reader.close();
-            if (!line.equals("")) {
-                reader.close();
-                try (FileReader reader2 = new FileReader(FILE_PATH)) {
-                    record = (JSONObject) jsonParser.parse(reader2);
-                    quizlist = (JSONArray) record.get("Quizzes");
-                } catch (IOException a) {
-                    System.out.println("error");
-                }
-            }
+    private void savefile() throws IOException {
+        try (FileWriter file = new FileWriter(FILE_PATH)) {
+            record.put("Quizzes", quizlist);
+            file.write(record.toJSONString());
+            file.flush();
         }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddQuestionButton;
     private javax.swing.JButton Back;
     private javax.swing.JComboBox<String> categorybox;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
