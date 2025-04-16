@@ -20,7 +20,7 @@ public final class MathUI extends javax.swing.JFrame {
     private String PlayerName, answer_selected, correctanswer;
     private static final String category_selected = CategorySelection.getCategorySelection_selected();
 
-    private static final String FILE_PATH = "src/Database.json";
+    private static final String[] FILE_PATH = {"src/QuizData.json", "src/UserData.json"};
     private static final JSONParser jsonParser = new JSONParser();
     private static JSONObject record = new JSONObject();
     private static JSONArray userlist = new JSONArray();
@@ -265,7 +265,7 @@ public final class MathUI extends javax.swing.JFrame {
     }
 
     public void filecheck() throws FileNotFoundException, IOException, ParseException {
-        FileReader reader = new FileReader(FILE_PATH);
+        FileReader reader = new FileReader(FILE_PATH[0]);
 
         if (reader.ready()) {
             Scanner scan = new Scanner(reader);
@@ -277,7 +277,7 @@ public final class MathUI extends javax.swing.JFrame {
             reader.close();
             if (!line.equals("")) {
                 reader.close();
-                try (FileReader reader2 = new FileReader(FILE_PATH)) {
+                try (FileReader reader2 = new FileReader(FILE_PATH[0])) {
                     record = (JSONObject) jsonParser.parse(reader2);
                     userlist = (JSONArray) record.get("Quizzes");
                 } catch (IOException a) {
@@ -388,7 +388,7 @@ public final class MathUI extends javax.swing.JFrame {
             JSONParser parser = new JSONParser();
 
             // Step 1: Read existing JSON from file
-            File file = new File(FILE_PATH);
+            File file = new File(FILE_PATH[0]);
             if (!file.exists() || file.length() == 0) {
                 data = new JSONObject();
             } else {
@@ -417,13 +417,13 @@ public final class MathUI extends javax.swing.JFrame {
             // Step 5: Update the original object and save to file
             data.put("Tries", triesArray);
 
-            try (FileWriter writer = new FileWriter(FILE_PATH)) {
+            try (FileWriter writer = new FileWriter(FILE_PATH[0])) {
                 writer.write(data.toJSONString());
                 writer.flush();
                 System.out.println("New try appended successfully.");
             }
 
-        } catch (Exception e) {
+        } catch (IOException | ParseException e) {
             System.out.println("Error updating JSON: " + e.getMessage());
         }
 

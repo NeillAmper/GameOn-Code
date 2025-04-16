@@ -12,10 +12,9 @@ import org.json.simple.parser.ParseException;
 
 public class EditQuiz extends javax.swing.JFrame {
 
-    private static final String FILE_PATH = "src/Database.json";
+    private static final String[] FILE_PATH = {"src/QuizData.json", "src/UserData.json"};
     private static final JSONParser jsonParser = new JSONParser();
     private static JSONObject record = new JSONObject();
-    private JSONObject lastUpdatedQuiz = null;
 
     public EditQuiz(String selectedQuizID, EditQuizTable aThis) {
         initComponents();
@@ -298,14 +297,16 @@ public class EditQuiz extends javax.swing.JFrame {
             Logger.getLogger(EditQuiz.class.getName()).log(Level.SEVERE, "Error loading quiz data", e);
         }
     }
-
+    // This method reads from the first file (QuizData.json)
     private void filecheck() throws IOException, ParseException {
-        FileReader reader = new FileReader(FILE_PATH);
-        record = (JSONObject) jsonParser.parse(reader);
+        try (FileReader reader = new FileReader(FILE_PATH[0])) {
+            record = (JSONObject) jsonParser.parse(reader);
+        }
     }
 
+    // This method writes to the first file (QuizData.json)
     private void saveToFile() {
-        try (FileWriter file = new FileWriter(FILE_PATH)) {
+        try (FileWriter file = new FileWriter(FILE_PATH[0])) {
             file.write(record.toJSONString());
             file.flush();
         } catch (IOException e) {
@@ -339,9 +340,6 @@ public class EditQuiz extends javax.swing.JFrame {
 
                 if (quizid.equals(quizObject.get("quizid"))) {
                     quizFound = true;
-
-                    // Store original for undo
-                    lastUpdatedQuiz = (JSONObject) quizObject.clone();
 
                     if (!newQuizid.isEmpty() && !newQuizid.equals(quizid)) {
                         quizObject.put("quizid", newQuizid);
@@ -415,33 +413,6 @@ public class EditQuiz extends javax.swing.JFrame {
         }
     }
 
-    // UNDO LAST QUIZ UPDATE
-    private void undoLastUpdate() {
-        if (lastUpdatedQuiz == null) {
-            JOptionPane.showMessageDialog(null, "There is no update to undo.");
-            return;
-        }
-
-        try {
-            filecheck();
-            JSONArray quizzes = (JSONArray) record.get("Quizzes");
-
-            for (int i = 0; i < quizzes.size(); i++) {
-                JSONObject quiz = (JSONObject) quizzes.get(i);
-                if (quiz.get("quizid").equals(lastUpdatedQuiz.get("quizid"))) {
-                    quizzes.set(i, lastUpdatedQuiz);
-                    saveToFile();
-                    JOptionPane.showMessageDialog(null, "Undo successful. Quiz restored.");
-                    lastUpdatedQuiz = null;
-                    return;
-                }
-            }
-
-            JOptionPane.showMessageDialog(null, "Could not undo. Quiz not found.");
-        } catch (IOException | ParseException e) {
-            Logger.getLogger(EditQuiz.class.getName()).log(Level.SEVERE, "Error during undo", e);
-        }
-    }
 
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> new EditQuizTable().setVisible(true));

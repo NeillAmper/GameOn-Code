@@ -17,7 +17,7 @@ import javax.swing.event.DocumentEvent;
 public class History extends javax.swing.JFrame {
 
     private final String userType; // "GameMaster" or "Player"
-    private static final String FILE_PATH = "src/Database.json";
+    private static final String[] FILE_PATH = {"src/QuizData.json", "src/UserData.json"};
 
     public History(String userType) {
         this.userType = userType;
@@ -144,9 +144,9 @@ public class History extends javax.swing.JFrame {
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
         if ("GameMaster".equals(userType)) {
-            new GameMaster().setVisible(true);
+            new GameMaster("GameMaster").setVisible(true);
         } else if ("Player".equals(userType)) {
-            new Player().setVisible(true);
+            new Player("Player").setVisible(true);
         }
         this.dispose(); // Close current window
     }//GEN-LAST:event_BackButtonActionPerformed
@@ -182,7 +182,7 @@ public class History extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) HistoryTable.getModel();
         model.setRowCount(0);
 
-        try (FileReader reader = new FileReader(FILE_PATH)) {
+        try (FileReader reader = new FileReader(FILE_PATH[0])) {
             JSONParser parser = new JSONParser();
             JSONObject root = (JSONObject) parser.parse(reader);
             JSONArray tries = (JSONArray) root.get("Tries");
@@ -228,7 +228,7 @@ public class History extends javax.swing.JFrame {
     }
 
     private void populateCategorySelection() {
-        try (FileReader reader = new FileReader(FILE_PATH)) {
+        try (FileReader reader = new FileReader(FILE_PATH[0])) {
             JSONParser parser = new JSONParser();
             JSONObject root = (JSONObject) parser.parse(reader);
             JSONArray quizzes = (JSONArray) root.get("Quizzes");
@@ -291,7 +291,7 @@ public class History extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) HistoryTable.getModel();
         model.setRowCount(0);
 
-        try (FileReader reader = new FileReader(FILE_PATH)) {
+        try (FileReader reader = new FileReader(FILE_PATH[0])) {
             JSONParser parser = new JSONParser();
             JSONObject root = (JSONObject) parser.parse(reader);
             JSONArray tries = (JSONArray) root.get("Tries");

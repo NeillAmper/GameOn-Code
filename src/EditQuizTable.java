@@ -14,8 +14,7 @@ import org.json.simple.parser.ParseException;
 
 public class EditQuizTable extends javax.swing.JFrame {
 
-    private static final String FILE_PATH = "src/Database.json";
-    private JSONObject lastEditedQuizOriginal = null;
+    private static final String[] FILE_PATH = {"src/QuizData.json", "src/UserData.json"};
 
     public EditQuizTable() {
         initComponents(); // This initializes the form components (auto-generated)
@@ -143,7 +142,7 @@ public class EditQuizTable extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        GameMaster g = new GameMaster();
+        GameMaster g = new GameMaster("GameMaster");
         g.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_BackButtonActionPerformed
@@ -161,7 +160,7 @@ public class EditQuizTable extends javax.swing.JFrame {
 
         String selectedQuizID = QuizTable.getValueAt(selectedRow, 1).toString();
 
-        try (FileReader reader = new FileReader(FILE_PATH)) {
+        try (FileReader reader = new FileReader(FILE_PATH[0])) {
             JSONParser parser = new JSONParser();
             JSONObject root = (JSONObject) parser.parse(reader);
             JSONArray quizzes = (JSONArray) root.get("Quizzes");
@@ -169,7 +168,6 @@ public class EditQuizTable extends javax.swing.JFrame {
             for (Object obj : quizzes) {
                 JSONObject quiz = (JSONObject) obj;
                 if (quiz.get("quizid").equals(selectedQuizID)) {
-                    lastEditedQuizOriginal = (JSONObject) quiz.clone();
                     break;
                 }
             }
@@ -191,7 +189,7 @@ public class EditQuizTable extends javax.swing.JFrame {
     }//GEN-LAST:event_QuizTableAncestorAdded
 
     private void populateCategorySelection() {
-        try (FileReader reader = new FileReader(FILE_PATH)) {
+        try (FileReader reader = new FileReader(FILE_PATH[0])) {
             JSONParser parser = new JSONParser();
             JSONObject root = (JSONObject) parser.parse(reader);
             JSONArray quizzes = (JSONArray) root.get("Quizzes");
@@ -219,56 +217,56 @@ public class EditQuizTable extends javax.swing.JFrame {
         }
     }
 
-private void loadCategoryQuizzes() {
-    DefaultTableModel model = (DefaultTableModel) QuizTable.getModel();
-    model.setRowCount(0); // Clear current table data
+    private void loadCategoryQuizzes() {
+        DefaultTableModel model = (DefaultTableModel) QuizTable.getModel();
+        model.setRowCount(0); // Clear current table data
 
-    try (FileReader reader = new FileReader(FILE_PATH)) {
-        JSONParser parser = new JSONParser();
-        JSONObject root = (JSONObject) parser.parse(reader);
-        JSONArray quizzes = (JSONArray) root.get("Quizzes");
+        try (FileReader reader = new FileReader(FILE_PATH[0])) {
+            JSONParser parser = new JSONParser();
+            JSONObject root = (JSONObject) parser.parse(reader);
+            JSONArray quizzes = (JSONArray) root.get("Quizzes");
 
-        Object selectedItem = CategorySelection.getSelectedItem();
-        if (selectedItem == null) {
-            return; // No category selected yet
-        }
-
-        String selectedCategory = selectedItem.toString();
-        String keyword = SearchField.getText().toLowerCase();
-
-        for (Object obj : quizzes) {
-            JSONObject quiz = (JSONObject) obj;
-            String category = quiz.get("category").toString();
-            String quizid = quiz.get("quizid").toString();
-            String question = quiz.get("question").toString();
-
-            // Convert values to lowercase for case-insensitive matching
-            String categoryLower = category.toLowerCase();
-            String quizidLower = quizid.toLowerCase();
-            String questionLower = question.toLowerCase();
-
-            // Filter by category from dropdown
-            boolean categoryDropdownMatch = selectedCategory.equals("All") || category.equals(selectedCategory);
-
-            // Filter by keyword match in category, quizid, or question
-            boolean keywordMatch = keyword.isEmpty() ||
-                    categoryLower.contains(keyword) ||
-                    quizidLower.contains(keyword) ||
-                    questionLower.contains(keyword);
-
-            if (categoryDropdownMatch && keywordMatch) {
-                model.addRow(new Object[]{
-                    category,
-                    quizid,
-                    question
-                });
+            Object selectedItem = CategorySelection.getSelectedItem();
+            if (selectedItem == null) {
+                return; // No category selected yet
             }
-        }
 
-    } catch (IOException | ParseException e) {
-        JOptionPane.showMessageDialog(this, "Failed to load quizzes.", "Error", JOptionPane.ERROR_MESSAGE);
+            String selectedCategory = selectedItem.toString();
+            String keyword = SearchField.getText().toLowerCase();
+
+            for (Object obj : quizzes) {
+                JSONObject quiz = (JSONObject) obj;
+                String category = quiz.get("category").toString();
+                String quizid = quiz.get("quizid").toString();
+                String question = quiz.get("question").toString();
+
+                // Convert values to lowercase for case-insensitive matching
+                String categoryLower = category.toLowerCase();
+                String quizidLower = quizid.toLowerCase();
+                String questionLower = question.toLowerCase();
+
+                // Filter by category from dropdown
+                boolean categoryDropdownMatch = selectedCategory.equals("All") || category.equals(selectedCategory);
+
+                // Filter by keyword match in category, quizid, or question
+                boolean keywordMatch = keyword.isEmpty()
+                        || categoryLower.contains(keyword)
+                        || quizidLower.contains(keyword)
+                        || questionLower.contains(keyword);
+
+                if (categoryDropdownMatch && keywordMatch) {
+                    model.addRow(new Object[]{
+                        category,
+                        quizid,
+                        question
+                    });
+                }
+            }
+
+        } catch (IOException | ParseException e) {
+            JOptionPane.showMessageDialog(this, "Failed to load quizzes.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
-}
 
     // ADDED SEARCH LISTENER
     private void addSearchListener() {

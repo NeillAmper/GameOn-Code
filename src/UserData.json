@@ -1,0 +1,96 @@
+{
+    "PlayerData": [{
+            "date": "04\/15\/25",
+            "time": "",
+            "score": "3\/10",
+            "category": "Math",
+            "player": "Enter player name"
+        }, {
+            "date": "04\/15\/25",
+            "time": "",
+            "score": "3\/10",
+            "category": "Science",
+            "player": "ahsdiahd"
+        }, {
+            "date": "04\/15\/25",
+            "time": "",
+            "score": "3\/10",
+            "category": "Math",
+            "player": "Hello"
+        }, {
+            "date": "04\/15\/25",
+            "time": "",
+            "score": "3\/10",
+            "category": "Science",
+            "player": "Neil"
+        }, {
+            "date": "04\/15\/25",
+            "time": "",
+            "score": "3\/10",
+            "category": "English",
+            "player": "jex"
+        }, {
+            "date": "04\/15\/25",
+            "time": "",
+            "score": "3\/10",
+            "category": "Math",
+            "player": "Eduardo II L. Millondaga"
+        }, {
+            "date": "04\/15\/25",
+            "time": "",
+            "score": "3\/10",
+            "category": "English",
+            "player": "Enter player name"
+        }, {
+            "date": "04\/15\/25",
+            "time": "",
+            "score": "3\/10",
+            "category": "Math",
+            "player": "Enter player name"
+        }, {
+            "date": "04\/15\/25",
+            "time": "",
+            "score": "3\/10",
+            "category": "Math",
+            "player": "Enter player name"
+        }, {
+            "date": "04\/15\/25",
+            "time": "",
+            "score": "3\/10",
+            "category": "Math",
+            "player": "Justin"
+        }],
+    "Accounts": [{
+            "password": "password1",
+            "type": "Game Master",
+            "username": "user1"
+        }, {
+            "password": "password2",
+            "type": "Player",
+            "username": "user2"
+        }, {
+            "password": "test1",
+            "type": "Game Master",
+            "username": "test1"
+        }, {
+            "password": "test2",
+            "type": "Player",
+            "username": "test2"
+        }, {
+            "password": "test3",
+            "type": "Game Master",
+            "username": "test3"
+        }, {
+            "password": "test10",
+            "type": "Game Master",
+            "username": "test10"
+        }, {
+            "password": "neill",
+            "type": "Game Master",
+            "username": "neill"
+        }, {
+            "password": "james",
+            "type": "Player",
+            "username": "James"
+        }]
+}

@@ -13,7 +13,7 @@ import org.json.simple.parser.ParseException;
 
 public class DeleteQuiz extends javax.swing.JFrame {
 
-    private static final String FILE_PATH = "src/Database.json";
+    private static final String[] FILE_PATH = {"src/QuizData.json", "src/UserData.json"};
     private JSONObject lastDeletedQuiz = null;
     private int lastDeletedRowIndex = -1;
 
@@ -144,7 +144,7 @@ public class DeleteQuiz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackButtonActionPerformed
-        GameMaster g = new GameMaster();
+        GameMaster g = new GameMaster("GameMaster");
         g.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_BackButtonActionPerformed
@@ -163,7 +163,7 @@ public class DeleteQuiz extends javax.swing.JFrame {
         String category = (String) QuizTable.getValueAt(row, 0);
         String quizid = (String) QuizTable.getValueAt(row, 1);
 
-        try (FileReader reader = new FileReader(FILE_PATH)) {
+        try (FileReader reader = new FileReader(FILE_PATH[0])) {
             JSONParser parser = new JSONParser();
             JSONObject root = (JSONObject) parser.parse(reader);
             JSONArray quizzes = (JSONArray) root.get("Quizzes");
@@ -178,7 +178,7 @@ public class DeleteQuiz extends javax.swing.JFrame {
                 }
             }
 
-            try (FileWriter writer = new FileWriter(FILE_PATH)) {
+            try (FileWriter writer = new FileWriter(FILE_PATH[0])) {
                 writer.write(root.toJSONString());
             }
 
@@ -196,14 +196,14 @@ public class DeleteQuiz extends javax.swing.JFrame {
             return;
         }
 
-        try (FileReader reader = new FileReader(FILE_PATH)) {
+        try (FileReader reader = new FileReader(FILE_PATH[0])) {
             JSONParser parser = new JSONParser();
             JSONObject root = (JSONObject) parser.parse(reader);
             JSONArray quizzes = (JSONArray) root.get("Quizzes");
 
             quizzes.add(lastDeletedQuiz);
 
-            try (FileWriter writer = new FileWriter(FILE_PATH)) {
+            try (FileWriter writer = new FileWriter(FILE_PATH[0])) {
                 writer.write(root.toJSONString());
             }
 
@@ -230,7 +230,7 @@ public class DeleteQuiz extends javax.swing.JFrame {
     }
 
     private void populateCategorySelection() {
-        try (FileReader reader = new FileReader(FILE_PATH)) {
+        try (FileReader reader = new FileReader(FILE_PATH[0])) {
             JSONParser parser = new JSONParser();
             JSONObject root = (JSONObject) parser.parse(reader);
             JSONArray quizzes = (JSONArray) root.get("Quizzes");
@@ -265,7 +265,7 @@ public class DeleteQuiz extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) QuizTable.getModel();
         model.setRowCount(0);
 
-        try (FileReader reader = new FileReader(FILE_PATH)) {
+        try (FileReader reader = new FileReader(FILE_PATH[0])) {
             JSONParser parser = new JSONParser();
             JSONObject root = (JSONObject) parser.parse(reader);
             JSONArray quizzes = (JSONArray) root.get("Quizzes");
@@ -320,7 +320,7 @@ public class DeleteQuiz extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) QuizTable.getModel();
         model.setRowCount(0); // Clear the table before populating
 
-        try (FileReader reader = new FileReader(FILE_PATH)) {
+        try (FileReader reader = new FileReader(FILE_PATH[0])) {
             JSONParser parser = new JSONParser();
             JSONObject root = (JSONObject) parser.parse(reader);
             JSONArray quizzes = (JSONArray) root.get("Quizzes");

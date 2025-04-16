@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
@@ -17,7 +16,7 @@ import javax.swing.ButtonGroup;
 public class CreateQuiz extends javax.swing.JFrame {
 
     private static String gameid, category, question, opt1, opt2, opt3, opt4, correctanswer;
-    private static final String FILE_PATH = "/Users/neillamper/Documents/NetBeansProjects/GameOn!/src/Database.json";
+    private static final String[] FILE_PATH = {"src/QuizData.json", "src/UserData.json"};
     private static final JSONParser jsonParser = new JSONParser();
     private static JSONObject record = new JSONObject();
     private static JSONArray quizlist = new JSONArray();
@@ -385,7 +384,7 @@ public class CreateQuiz extends javax.swing.JFrame {
     }
 
     private void filecheck() throws IOException, ParseException {
-        try (FileReader reader = new FileReader(FILE_PATH)) {
+        try (FileReader reader = new FileReader(FILE_PATH[0])) {
             Object obj = jsonParser.parse(reader);
             record = (JSONObject) obj;
             quizlist = (JSONArray) record.get("Quizzes");
@@ -397,7 +396,7 @@ public class CreateQuiz extends javax.swing.JFrame {
     }
 
     private void savefile() throws IOException {
-        try (FileWriter file = new FileWriter(FILE_PATH)) {
+        try (FileWriter file = new FileWriter(FILE_PATH[0])) {
             record.put("Quizzes", quizlist);
             file.write(record.toJSONString());
             file.flush();

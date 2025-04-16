@@ -16,7 +16,7 @@ public class SignIn extends javax.swing.JFrame {
 
     private static String usname, pass;
 
-    private static final String FILE_PATH = "src/Database.json";
+    private static final String FILE_PATH = "src/UserData.json";
     private static final JSONParser jsonParser = new JSONParser();
     private static JSONObject record = new JSONObject();
     private static JSONArray userlist = new JSONArray();
